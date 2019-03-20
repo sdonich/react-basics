@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './Button';
+import Checkbox from './Checkbox';
 
 class Todo extends React.Component {
   constructor(props) {
@@ -45,9 +46,8 @@ class Todo extends React.Component {
   displayTodo() {
     return (
       <div className={this.props.className}>
-        <Button
-          className='checkbox icon'
-          icon={this.props.completed ? 'check_box' : 'check_box_outline_blank'}
+        <Checkbox
+          checked={this.props.completed}
           onClick={() => {
             this.props.todoComplete(this.props.id);
           }}

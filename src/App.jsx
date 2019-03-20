@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
 import Todo from './components/Todo';
-import Button from './components/Button';
 import Form from './components/Form';
 
 class App extends React.Component {
@@ -87,7 +86,6 @@ class App extends React.Component {
           value=''
           submit={this.handleAdd}
         />   
-
       </main>
     )
   } 
