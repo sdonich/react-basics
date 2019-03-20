@@ -3,8 +3,7 @@ import React from 'react';
 
 function Button(props) {
   return (
-    <button {...props}>
-      <i className='material-icons'>{props.icon}</i>
+    <button {...props}>{props.children ? props.children : <i className='material-icons'>{props.icon}</i>}
     </button>
   );
 }

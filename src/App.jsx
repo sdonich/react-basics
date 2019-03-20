@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import Todo from './components/Todo';
+import Button from './components/Button';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,9 +11,16 @@ class App extends React.Component {
       todos: props.todos
     }
 
+    this.id = 3;
+
     this.handleToggle = this.handleToggle.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+  }
+
+  nextId() {
+    return ++this.id;
   }
 
   handleToggle(id) {
@@ -42,6 +50,18 @@ class App extends React.Component {
     this.setState({ todos });
   }
 
+  handleAdd() {
+    let todo = {
+      id: this.nextId(),
+      title: this.refs.title.value,
+      completed: false
+    };
+
+    let todos = [...this.state.todos, todo];
+
+    this.setState({todos});
+  }
+
   render() {
     return (
       <main>
@@ -55,11 +75,22 @@ class App extends React.Component {
                 todoComplete={this.handleToggle}
                 todoDelete={this.handleDelete}
                 todoEdit={this.handleEdit}
+                todoAdd={this.handleAdd}
                 {...todo}
               />
             })
           }
         </section>
+        <form
+          className='todo-form'
+          onSubmit={(evt) => {
+            evt.preventDefault();
+            this.handleAdd();
+          }}
+        >
+          <input type='text' placeholder='What need to do...' ref='title'></input>
+          <Button type='submit' children='add'></Button>
+        </form>
       </main>
     )
   } 
