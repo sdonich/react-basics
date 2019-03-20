@@ -2,7 +2,7 @@ const todos = [
   {
     id: 1,
     title: 'Learn JS',
-    completed: false
+    completed: true
   },
   {
     id: 2,

@@ -9,6 +9,26 @@ class App extends React.Component {
     this.state = {
       todos: props.todos
     }
+
+    this.handleToggle = this.handleToggle.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleToggle(id) {
+    const todos = this.state.todos.map(todo => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+
+    this.setState({ todos });
+  }
+
+  handleDelete(id) {
+    const todos = this.state.todos.filter(todo => todo.id !== id);
+
+    this.setState({ todos });
   }
 
   render() {
@@ -18,7 +38,13 @@ class App extends React.Component {
         <section className='todo-list'>
           {
             this.state.todos.map(todo => {
-              return <Todo key={todo.id} {...todo} />
+              return <Todo
+                key={todo.id}
+                className={todo.completed ? 'todo completed' : 'todo'}
+                todoComplete={this.handleToggle}
+                todoDelete={this.handleDelete}
+                {...todo}
+              />
             })
           }
         </section>
