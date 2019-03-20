@@ -16,6 +16,13 @@ class Todo extends React.Component {
     this.setState( {editing: !this.state.editing} );
   }
 
+  componentDidUpdate() {
+    if (this.refs.title) {
+      this.refs.title.focus();
+      this.refs.title.select();
+    }
+  }
+
   displayForm() {
     return (
       <form

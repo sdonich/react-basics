@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import Todo from './components/Todo';
 import Button from './components/Button';
+import Form from './components/Form';
 
 class App extends React.Component {
   constructor(props) {
@@ -50,16 +51,15 @@ class App extends React.Component {
     this.setState({ todos });
   }
 
-  handleAdd() {
+  handleAdd(value) {
     let todo = {
       id: this.nextId(),
-      title: this.refs.title.value,
+      title: value,
       completed: false
     };
-
     let todos = [...this.state.todos, todo];
 
-    this.setState({todos});
+    this.setState({ todos });
   }
 
   render() {
@@ -81,16 +81,13 @@ class App extends React.Component {
             })
           }
         </section>
-        <form
+
+        <Form
           className='todo-form'
-          onSubmit={(evt) => {
-            evt.preventDefault();
-            this.handleAdd();
-          }}
-        >
-          <input type='text' placeholder='What need to do...' ref='title'></input>
-          <Button type='submit' children='add'></Button>
-        </form>
+          value=''
+          submit={this.handleAdd}
+        />   
+
       </main>
     )
   } 
