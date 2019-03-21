@@ -2,13 +2,14 @@ import React from 'react';
 import Header from './components/Header';
 import Todo from './components/Todo';
 import Form from './components/Form';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      todos: props.todos
+      todos: []
     }
 
     this.id = 3;
@@ -19,8 +20,17 @@ class App extends React.Component {
     this.handleAdd = this.handleAdd.bind(this);
   }
 
-  nextId() {
-    return ++this.id;
+  handleError(error) {
+    console.log(error);
+  }
+
+  componentWillMount() {
+    axios.get('/api/todos')
+      .then(res => res.data)
+      .then(data => {
+        this.setState({ todos: data })
+      })
+      .catch(this.handleError)
   }
 
   handleToggle(id) {
@@ -50,15 +60,13 @@ class App extends React.Component {
     this.setState({ todos });
   }
 
-  handleAdd(value) {
-    let todo = {
-      id: this.nextId(),
-      title: value,
-      completed: false
-    };
-    let todos = [...this.state.todos, todo];
-
-    this.setState({ todos });
+  handleAdd(title) {
+    axios.post('api/todos', {title})
+      .then(res => res.data)
+      .then(todo => {
+        let todos = [...this.state.todos, todo];
+        this.setState({ todos });
+      })
   }
 
   render() {
