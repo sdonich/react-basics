@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const todos = require('./todos');
 
@@ -10,6 +11,7 @@ let nextId = 4;
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache');
@@ -17,6 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/api/todos', (req, res) => {
+  console.log(req.cookies);
   res.send(todos);
 });
 
@@ -60,6 +63,14 @@ app.delete('/api/todos/:id', (req, res) => {
   todos.splice(index, 1);
 
   res.sendStatus(204);
+});
+
+app.post('/api/access', (req, res) => {
+
+  res.cookie('username', req.body.username);
+  // console.log('server');
+  console.log(req.body);
+  res.send('ok');
 });
 
 app.listen(5000, 'localhost', ()=> console.log('Server is running'));
