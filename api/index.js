@@ -65,11 +65,26 @@ app.delete('/api/todos/:id', (req, res) => {
   res.sendStatus(204);
 });
 
+app.get('/api/access', (req, res) => {
+
+  console.log(Object.entries(req.cookies).length);
+
+  // res.cookie('username', req.body.username);
+  // console.log('server');
+  // console.log(req.cookies);
+  if (Object.entries(req.cookies).length !== 0) {
+    res.send('ok');
+  } else {
+    res.sendStatus(401);
+  }
+});
+
 app.post('/api/access', (req, res) => {
 
   res.cookie('username', req.body.username);
   // console.log('server');
-  console.log(req.body);
+  // console.log(req.cookies);
+  // res.redirect('/api/acces');
   res.send('ok');
 });
 

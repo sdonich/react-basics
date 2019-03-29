@@ -2,6 +2,8 @@ import React from 'react';
 import Header from './components/Header';
 import Todo from './components/Todo';
 import Form from './components/Form';
+import Registration from './components/Registration';
+
 import axios from 'axios';
 
 class App extends React.Component {
@@ -18,6 +20,7 @@ class App extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleRegistration = this.handleRegistration.bind(this);
   }
 
   handleError(error) {
@@ -84,33 +87,70 @@ class App extends React.Component {
       })
   }
 
+  handleRegistration(username) {
+    axios.post('api/access', {username})
+    .then(res => {
+      console.log('res');
+    })
+  }
+
   render() {
     return (
-      <main>
-        <Header title={this.props.title} todos={this.state.todos} />
-        <section className='todo-list'>
-          {
-            this.state.todos.map(todo => {
-              return <Todo
-                key={todo.id}
-                className={todo.completed ? 'todo completed' : 'todo'}
-                todoComplete={this.handleToggle}
-                todoDelete={this.handleDelete}
-                todoEdit={this.handleEdit}
-                todoAdd={this.handleAdd}
-                {...todo}
-              />
-            })
-          }
-        </section>
+      this.props.access ?
+        <main>
+          <Header title={this.props.title} todos={this.state.todos} />
+          <section className='todo-list'>
+            {
+              this.state.todos.map(todo => {
+                return <Todo
+                  key={todo.id}
+                  className={todo.completed ? 'todo completed' : 'todo'}
+                  todoComplete={this.handleToggle}
+                  todoDelete={this.handleDelete}
+                  todoEdit={this.handleEdit}
+                  todoAdd={this.handleAdd}
+                  {...todo}
+                />
+              })
+            }
+          </section>
+          <Form
+            className='todo-form'
+            value=''
+            submit={this.handleAdd}
+          />   
+          </main>
+        :
+        <Registration register={this.handleRegistration}  />
 
-        <Form
-          className='todo-form'
-          value=''
-          submit={this.handleAdd}
-        />   
-      </main>
-    )
+    );
+    // return (
+    //   <main>
+    //     <Header title={this.props.title} todos={this.state.todos} />
+    //     <section className='todo-list'>
+    //       {
+    //         this.state.todos.map(todo => {
+    //           return <Todo
+    //             key={todo.id}
+    //             className={todo.completed ? 'todo completed' : 'todo'}
+    //             todoComplete={this.handleToggle}
+    //             todoDelete={this.handleDelete}
+    //             todoEdit={this.handleEdit}
+    //             todoAdd={this.handleAdd}
+    //             {...todo}
+    //           />
+    //         })
+    //       }
+    //     </section>
+
+    //     <Form
+    //       className='todo-form'
+    //       value=''
+    //       submit={this.handleAdd}
+    //     />   
+    //   </main>
+    // )
+        
   } 
 }
 
